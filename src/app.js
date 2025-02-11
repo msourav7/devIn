@@ -2,17 +2,35 @@ const express = require("express");
 const app = express();
 const connectDB = require("./config/database");
 const User = require("./models/user");
+const { validateSignUpData } = require("./utils/validation");
+const bcrypt = require("bcrypt");
 
 app.use(express.json());
 
 app.post("/signup", async (req, res) => {
-  //creating the new instance of the User model
-  const user = new User(req.body);
   try {
+    //Validation of data
+    validateSignUpData(req);
+
+    const {firstName,lastName,emailId, gender,age,password } = req.body;
+
+    //Encrypt the password
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    //creating the new instance of the User model
+    //const user = new User(req.body);
+    const user = new User({
+      firstName,
+      lastName,
+      emailId,
+      password: passwordHash,
+      gender,
+      age
+    });
     await user.save();
     res.send("User added successfully!");
   } catch (err) {
-    res.status(400).send("error saving the user" + err.message);
+    res.status(400).send("Error : " + err.message);
   }
 });
 
@@ -64,16 +82,16 @@ app.patch("/user/:userId", async (req, res) => {
       "gender",
       "age",
       "skills",
-      "password"
+      "password",
     ];
-    const isUpdateAllowed = Object.keys(data).every((k) => 
+    const isUpdateAllowed = Object.keys(data).every((k) =>
       ALLOWED_UPDATES.includes(k)
     );
     if (!isUpdateAllowed) {
       throw new Error("Update not allowed");
     }
-    if(data?.skills.length>10){
-        throw new Error("Skills limit exceded")
+    if (data?.skills.length > 10) {
+      throw new Error("Skills limit exceded");
     }
 
     // const user=await User.findByIdAndUpdate(userId,data)
