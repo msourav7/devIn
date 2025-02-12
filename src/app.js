@@ -34,6 +34,26 @@ app.post("/signup", async (req, res) => {
   }
 });
 
+app.post("/login",async(req,res)=>{
+  try{
+    const {emailId,password}=req.body;
+
+    const user=await User.findOne({emailId:emailId})
+    if(!user){
+      throw new Error("Email ID is Invalid")
+    }
+
+    const isPasswordValid=await bcrypt.compare(password, user.password)//password is comming from req.body which we are entering and user.password is coming from th db in hash format the both will get compared
+    if(isPasswordValid){
+      res.send("Login Successful...")
+    }else{
+      throw new Error("Password is not correct")
+    }
+  }catch (err) {
+    res.status(400).send("ERROR"+err.message);
+  }
+})
+
 app.get("/user", async (req, res) => {
   const userEmail = req.body.emailId;
   try {
