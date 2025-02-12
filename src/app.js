@@ -43,7 +43,7 @@ app.post("/login",async(req,res)=>{
       throw new Error("Email ID is Invalid")
     }
 
-    const isPasswordValid=await bcrypt.compare(password, user.password)//password is comming from req.body which we are entering and user.password is coming from th db in hash format the both will get compared
+    const isPasswordValid=await bcrypt.compare(password, user.password)//password is comming from req.body which we are entering and user.password is coming from th db in hash format the both will get compared & User.findOne(...) returns the full object,This object contains all fields stored in the database for that user, including emailId, password, and any other properties.
     if(isPasswordValid){
       res.send("Login Successful...")
     }else{
