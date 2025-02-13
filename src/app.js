@@ -8,6 +8,7 @@ const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken")
 const {userAuth}=require("./middlewares/auth")
 
+
 app.use(express.json());
 app.use(cookieParser());
 
@@ -47,13 +48,15 @@ app.post("/login",async(req,res)=>{
       throw new Error("Email ID is Invalid")
     }
 
-    const isPasswordValid=await bcrypt.compare(password, user.password)//password is comming from req.body which we are entering and user.password is coming from th db in hash format the both will get compared & User.findOne(...) returns the full object,This object contains all fields stored in the database for that user, including emailId, password, and any other properties.
+    const isPasswordValid=await user.validatePassword(password)
+    //this validatePassword is commint from the the fun made in user.js
+    // const isPasswordValid=await bcrypt.compare(password, user.password)  
+    //password is comming from req.body which we are entering and user.password is coming from th db in hash format the both will get compared & User.findOne(...) returns the full object,This object contains all fields stored in the database for that user, including emailId, password, and any other properties.
     if(isPasswordValid){
       //Create the JWT Token
      
-      // const token=await jwt.sign({firstName:user.firstName},"Prince@123");
-      const token=await jwt.sign({_id:user._id},"Prince@123",{expiresIn:"1D"});
-      console.log(token)
+      // const token=await jwt.sign({firstName:user.firstName},"Prince@123");  getting this token validation from user model to clear the login api code  ,,  Creat a JWT Token required from user.js model 
+      const token=await user.getJWT();
 
       //Add the token to cookie and send the response back to the user
       res.cookie("token",token);
@@ -62,7 +65,7 @@ app.post("/login",async(req,res)=>{
       throw new Error("Password is not correct")
     }
   }catch (err) {
-    res.status(400).send("ERROR"+err.message);
+    res.status(400).send(" ERRORt " + err.message);
   }
 })
 
