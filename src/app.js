@@ -4,8 +4,11 @@ const connectDB = require("./config/database");
 const User = require("./models/user");
 const { validateSignUpData } = require("./utils/validation");
 const bcrypt = require("bcrypt");
+const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken")
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.post("/signup", async (req, res) => {
   try {
@@ -45,11 +48,43 @@ app.post("/login",async(req,res)=>{
 
     const isPasswordValid=await bcrypt.compare(password, user.password)//password is comming from req.body which we are entering and user.password is coming from th db in hash format the both will get compared & User.findOne(...) returns the full object,This object contains all fields stored in the database for that user, including emailId, password, and any other properties.
     if(isPasswordValid){
+      //Create the JWT Token
+     
+      // const token=await jwt.sign({firstName:user.firstName},"Prince@123");
+      const token=await jwt.sign({_id:user._id},"Prince@123");
+      console.log(token)
+
+      //Add the token to cookie and send the response back to the user
+      res.cookie("token",token);
       res.send("Login Successful...")
     }else{
       throw new Error("Password is not correct")
     }
   }catch (err) {
+    res.status(400).send("ERROR"+err.message);
+  }
+})
+
+app.get("/profile",async(req,res)=>{
+  try{ const cookies = req.cookies;
+
+   const {token}=cookies;
+   if(!token){
+    throw new Error("Invalid Token");
+   }
+
+   const decodedmessage=await jwt.verify(token,"Prince@123")
+
+   const {_id}=decodedmessage;
+
+   console.log("Loggedin user is " + _id)
+
+   //To return all the user data using its _id
+   const user = await User.findById(_id)
+   if(!user){
+    throw new Error("Invalid User")
+   }
+   res.send(user)}catch (err) {
     res.status(400).send("ERROR"+err.message);
   }
 })
