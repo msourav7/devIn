@@ -1,7 +1,7 @@
 const validator=require("validator");
 
 
-//validation for firstName,lastName,emailId,password
+//validation for firstName,lastName,emailId,password ****-> This is for the first time when user Signs UP
 const validateSignUpData=(req)=>{
     const {firstName,lastName,emailId,password}=req.body;
     if(!firstName||!lastName){

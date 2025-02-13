@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken")
 const User = require("../models/user")
 
+//This userAuth is a middleware which we can add in the APIs such as /sendConnectionRequest, /profile api leaving signup and login to compare/validate the token inside the cookies for different apis requests
+
 const userAuth =async (req,res,next)=>{
     try{
         //Read the token from the req cookies
