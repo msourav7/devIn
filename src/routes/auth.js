@@ -62,6 +62,32 @@ authRouter.post("/login",async(req,res)=>{
     }catch (err) {
       res.status(400).send(" ERRORt " + err.message);
     }
-  })  
+  })      
+
+  authRouter.post("/logout", async(req,res)=>{
+    try{
+          res.clearCookie("token",null,{
+            expires:new Date(Date.now()),
+          })
+          res.status(200).send("Logout Successful...");
+        }catch (err) {
+              res.status(500).send("Error while logging out: " + err.message);
+            }
+  })
+
+//   authRouter.post("/logout", async (req, res) => {
+//     try {
+//       // Clear the token cookie
+//       res.clearCookie("token", {
+//         httpOnly: true,   // Ensure the cookie is only accessible via HTTP (not JavaScript)
+//         secure: true,     // Ensure it's only sent over HTTPS (set this in production)
+//         sameSite: "strict" // Prevent CSRF attacks
+//       });
+  
+//       res.status(200).send("Logout Successful...");
+//     } catch (err) {
+//       res.status(500).send("Error while logging out: " + err.message);
+//     }
+//   });
 
 module.exports=authRouter;
