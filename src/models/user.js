@@ -41,6 +41,13 @@ const userSchema=new mongoose.Schema({
     gender:{
         type:String,
         required:true,
+        //This is the ex of prebuild mongoose validation
+        // enum:{
+        //     values: ["male","female","others"],
+        //     message: `{VALUE} is not a valid GENDER type`
+        // },
+
+        //this is a custom validation
         validate(value){
             if(!["male","female","others"].includes(value.toLowerCase())){
                 throw new Error("Gender not recognised")
