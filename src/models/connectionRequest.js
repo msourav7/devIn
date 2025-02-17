@@ -1,4 +1,4 @@
-const mongoose = require("mongoose ");
+const mongoose = require("mongoose");
 
 const connectionRequestSchema = new mongoose.Schema(
   {
@@ -19,8 +19,18 @@ const connectionRequestSchema = new mongoose.Schema(
       },
     },
   },
-  { timestanps: true }
+  { timestamps: true }
 );
+
+// this middleware "pre" will happen when i am just about to save the data in request.js , the .pre("save", save here here is acting like a event handler for pre method, this is called validation before saving.
+connectionRequestSchema.pre("save", function (next){
+    const connectionRequest=this;
+    // Check if fromUserId is same as toUserId
+     if(connectionRequest.fromUserId.equals(connectionRequest.toUserId)){
+        throw new Error("Cannot send connection request to yourself")
+     }
+     next();
+})
 
 const ConnectionRequestModel = new mongoose.model(
   "ConnectionRequestModel",

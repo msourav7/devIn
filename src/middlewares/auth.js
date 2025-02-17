@@ -15,13 +15,14 @@ const userAuth =async (req,res,next)=>{
        const decodedObj= await jwt.verify(token,"Prince@123")
       
        const {_id}=decodedObj;
-       //To return all the user data using its _id
+       //To return all the user data using its _id, if the user is ther in db then it'll find and assign to req object, 
+       // req.user=user
        const user=await User.findById(_id)
        if(!user){
           throw new Error("User not Valid")
        }
        req.user=user;
-       next();
+       next(); // so whenever we'll user userAuth middle.. this req will carry the detail of the loggedIn user
     }catch(err){
        res.status(400).send("ERROR: "+ err.message)
     }
