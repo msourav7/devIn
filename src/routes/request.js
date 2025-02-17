@@ -24,7 +24,7 @@ requestRouter.post("/request/send/:status/:toUserId",userAuth,async (req,res)=>{
         return res.status(400).json({message: "Invalid status type: " + status});
       }
 
-      //to chek the req we are sending is even present in our DB or not
+      //to chek the req we are sending to is even present in our DB or not
       try {
         const toUser = await User.findById(toUserId);
         if (!toUser) {
@@ -39,7 +39,7 @@ requestRouter.post("/request/send/:status/:toUserId",userAuth,async (req,res)=>{
       //to check if sourav is not sending connec. req to sourav himself
       // ----> dealing this validation in connectionRequest model , check there 
 
-      //Now we'll check if there is an existing ConnectionRequest ex one cant send more than one req to same person and after 1 sent req to 2nd then 2nd should also not sendthe req to 1st
+      //Now we'll check if there is an existing ConnectionRequest ex. one cant send more than one req to same person and after 1 sent req to 2nd then 2nd should also not sendthe req to 1st
        const existingConnectionRequest = await ConnectionRequest.findOne({
         $or: [
           {fromUserId,toUserId},//to check if fromuserId and toUserId is present or not
@@ -50,7 +50,7 @@ requestRouter.post("/request/send/:status/:toUserId",userAuth,async (req,res)=>{
         return res.status(400).send("Connection Request Already exists")
        }
      
-      //creating a new instance for ConnectionRequest because now instead of making two different apis or intrested and ignore ["/request/send/intrested/:toUserId" & "/request/send/ignored/:fromUserId"]we will call our api dynamically as /:statuss
+      //creating a new instance for ConnectionRequest because now instead of making two different apis of intrested and ignore ["/request/send/intrested/:toUserId" & "/request/send/ignored/:fromUserId"]we will call our api dynamically as /:statuss
       const connectionRequest = new ConnectionRequest({
         fromUserId,
         toUserId, 

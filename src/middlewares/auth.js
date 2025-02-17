@@ -21,7 +21,7 @@ const userAuth =async (req,res,next)=>{
        if(!user){
           throw new Error("User not Valid")
        }
-       req.user=user;
+       req.user=user; //sending all the user loggedIn detail to req.user
        next(); // so whenever we'll user userAuth middle.. this req will carry the detail of the loggedIn user
     }catch(err){
        res.status(400).send("ERROR: "+ err.message)

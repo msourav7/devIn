@@ -3,11 +3,12 @@ const mongoose = require("mongoose");
 const connectionRequestSchema = new mongoose.Schema(
   {
     fromUserId: {
+        // type: mongoose.Schema.Types.ObjectId--->,it means that this field stores a reference to another document's _id in MongoDB,here another document id mean User id , If you have a User model and a ConnectionRequest model, you can use ObjectId to reference a user. // References a User's _id
       type: mongoose.Schema.Types.ObjectId,
       required: true,
     },
     toUserId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId, // References a User's _id
       required: true,
     },
     status: {

@@ -83,8 +83,8 @@ userSchema.methods.getJWT = async function (){
     return token
 }
 
-//Same we will do for password ,********-> This is to compare/validate the password if user logs in 
-userSchema.methods.validatePassword = async function (passwordInputByUser){//this passwordInputByUser is comming from the argument in login in user.js and it will get compared by the passwordHash which is present in our databse in hashed fromat & dont interchange the order of this bcrypt.compare(passwordInputByUser, passwordHash)
+//Same we will do for password ,********-> This is to compare/validate the password if user logs in.
+userSchema.methods.validatePassword = async function (passwordInputByUser){//this passwordInputByUser is comming from the argument in login in auth.js and it will get compared by the passwordHash which is present in our databse in salted/hashed fromat & dont interchange the order of this bcrypt.compare(passwordInputByUser, passwordHash)
     const user = this;
     const passwordHash=this.password; // user.password both are same
     const isPasswordValid = await bcrypt.compare(passwordInputByUser, passwordHash)
