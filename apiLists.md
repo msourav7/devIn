@@ -22,8 +22,8 @@
 - POST /request/review/:status/:requestId
 
 ## userRouter
+- GET /user/requests
 - GET /user/connections
-- GET /user/requests/received
 - GET /user/feed - Gets yopu the profile of other users on platforms
 
  

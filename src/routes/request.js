@@ -84,7 +84,7 @@ requestRouter.post("/request/review/:status/:requestId",userAuth,async(req,res)=
     //this is for to check if the toUserId is same as the loggedIn user to accept , this will make sure that sourav only is acceting the intrested request
     const connectionRequest = await ConnectionRequest.findOne({
       _id:requestId,
-      toUserId:loggedInUser._id,
+      toUserId:loggedInUser._id,//toUserId is same as the loggedIn
       status:"intrested",
     })
     if(!connectionRequest){

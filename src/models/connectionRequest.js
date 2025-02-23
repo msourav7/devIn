@@ -6,6 +6,7 @@ const connectionRequestSchema = new mongoose.Schema(
         // type: mongoose.Schema.Types.ObjectId--->,it means that this field stores a reference to another document's _id in MongoDB,here another document id mean User id , If you have a User model and a ConnectionRequest model, you can use ObjectId to reference a user. // References a User's _id
       type: mongoose.Schema.Types.ObjectId,
       required: true,
+      ref:"User", //this fromUserId is linked from id of the userr from User tabel in user model, reference to the user collec.
     },
     toUserId: {
       type: mongoose.Schema.Types.ObjectId, // References a User's _id
