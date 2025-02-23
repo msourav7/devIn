@@ -88,7 +88,7 @@ requestRouter.post("/request/review/:status/:requestId",userAuth,async(req,res)=
       status:"intrested",
     })
     if(!connectionRequest){
-      return res.status(404).json({message: "Connection request not found"})
+      return res.status(404).json({message: "Connection request not found"}) // it will throw this error when you are acceptig the req from the same id you need to change the login where req was sent
     }
  
     //changing status to either intrested or rejected , comming from here _id:requestId,toUserId:loggedInUser._id status:intrested, and saving the status finally
