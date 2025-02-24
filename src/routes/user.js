@@ -28,9 +28,9 @@ userRouter.get("/user/connections",userAuth,async(req,res)=>{
         ],
       }).populate("fromUserId",USER_SAFE_DATA).populate("toUserId",USER_SAFE_DATA);
        // Map/loop the data to show only the other person's details
-      const data = connectionRequest.map((row)=>{//to loop al the data inside the connection req.
+      const data = connectionRequest.map((row)=>{//to loop al the data inside the connections
         if(row.fromUserId._id.toString()===loggedInUser._id.toString()){ //to only get data/detail of from or toUserId
-            return row.toUserId//if fromUserId is logged in then show connection req of toUserId and vise versa otherwise it will show all the existing/requested of connections OR If logged-in user is the sender, show receiver's details
+            return row.toUserId//if fromUserId is logged in then show connection req of toUserId and vise versa otherwise it will show all the connections OR If logged-in user is the sender, show receiver's details
         }  
         return row.fromUserId // If logged-in user is the receiver, show sender's details OR Shows only the other person's details (not the logged-in user's own details).
     })
