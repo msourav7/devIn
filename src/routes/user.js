@@ -22,7 +22,7 @@ userRouter.get("/user/connections",userAuth,async(req,res)=>{
     try{
       const loggedInUser = req.user;
       const connectionRequest = await ConnectionRequest.find({
-        $or:[ //finding all the connectionReq. where loggedInUser could be from toUserId or fromUserId where status is accepted
+        $or:[ //finding all the connections where loggedInUser could be from toUserId or fromUserId where status is accepted
             {toUserId:loggedInUser._id,status:"accepted"},
             {fromUserId:loggedInUser._id,status:"accepted"},
         ],
