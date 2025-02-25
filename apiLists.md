@@ -22,9 +22,17 @@
 - POST /request/review/:status/:requestId
 
 ## userRouter
-- GET /user/requests
+- GET /user/requests/received
 - GET /user/connections
 - GET /user/feed - Gets yopu the profile of other users on platforms
 
+-Pagination 
+ - /feed?page=1&limit=10 => first 10 users 1-10 =>.skip(0) , .limit(10)
+ - /feed?page=2&limit=10 =>users 11-20  =>.skip(10) , .limit(10)
+ - etc.
+
+ - with the help of .skip() , limit()
+ -Formula for skip 
+  - skip = (page-1)*limit
  
 Status: ignored, intrested, accepted, rejected

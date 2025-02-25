@@ -2,6 +2,7 @@ const express = require("express");
 const { userAuth } = require("../middlewares/auth");
 const userRouter = express.Router();
 const ConnectionRequest = require("../models/connectionRequest")
+const User = require("../models/user")
 
 const USER_SAFE_DATA= "firstName lastName photoUrl age gender skills"
 
@@ -38,6 +39,43 @@ userRouter.get("/user/connections",userAuth,async(req,res)=>{
 
     }catch(err){
       res.status(400).send("ERROR: " + err.message)
+    }
+})
+
+userRouter.get("/feed",userAuth,async(req,res)=>{
+    try{
+      const loggedInUser = req.user;
+
+      const page = parseInt(req.query.page) || 1;
+      let limit = parseInt(req.query.limit) || 10
+      limit = limit>50?50:limit; //if someone asked for more than 50 profiles show him either 50 or th limit which is 10 
+
+      const skip = (page-1)*limit;
+
+      //Find all connectionRequest (sent + received)
+      const connectionRequest = await ConnectionRequest.find({
+        $or:[{fromUserId:loggedInUser},{toUserId:loggedInUser}],
+      }).select("fromUserId toUserId")
+
+      //Here we'll user as dsa Set() it will only add that data in the array which is unique (here we'll add unique connections only not more than one)
+      const hideUsersFromFeed = new Set();
+      connectionRequest.forEach((req)=>{
+        hideUsersFromFeed.add(req.fromUserId.toString());
+        hideUsersFromFeed.add(req.toUserId.toString());
+      })
+      console.log(hideUsersFromFeed)// these are the people who i want to hide from my field
+
+      //Now db call to explained below
+      const users = await Users.find({
+        $and:[ 
+          {_id:{$nin: Array.from(hideUsersFromFeed)}},//Finding all the users who are not in this array set of hideUsersFromFeed,($nin not in this array)
+          {_id: {$ne : loggedInUser._id}},]//And their Id is not equal to the loggedInUser id
+      }).select(USER_SAFE_DATA).skip(skip).limit(limit)
+
+    //   res.send(connectionRequest)
+      res.send(users)
+    }catch(err){
+        res.status(400).json({message:err.message})
     }
 })
 
