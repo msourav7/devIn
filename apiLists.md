@@ -36,3 +36,6 @@
   - skip = (page-1)*limit
  
 Status: ignored, intrested, accepted, rejected
+
+# CORS
+ - added cors confguration origin and credentials in frontend as well as backend
