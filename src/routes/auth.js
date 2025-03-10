@@ -60,7 +60,7 @@ authRouter.post("/login",async(req,res)=>{
         throw new Error("Password is not correct")
       }
     }catch (err) {
-      res.status(400).send(" ERRORt " + err.message);
+      res.status(400).send(" ERROR : " + err.message);
     }
   })      
 

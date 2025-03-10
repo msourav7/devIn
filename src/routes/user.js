@@ -66,7 +66,7 @@ userRouter.get("/feed",userAuth,async(req,res)=>{
       console.log(hideUsersFromFeed)// these are the people who i want to hide from my field
 
       //Now db call to explained below
-      const users = await Users.find({
+      const users = await User.find({
         $and:[ 
           {_id:{$nin: Array.from(hideUsersFromFeed)}},//Finding all the users who are not in this array set of hideUsersFromFeed,($nin not in this array)
           {_id: {$ne : loggedInUser._id}},]//And their Id is not equal to the loggedInUser id

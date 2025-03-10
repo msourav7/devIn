@@ -15,14 +15,15 @@ const validateSignUpData = (req) => {
 
 //Validation for edit profile
 const validateEditProfileData = (req) => {
-  const allowedEditFields = [
+  const allowedEditFields = [// only these are all the fields only which will come when editing in frontend with patch 
     "firstName",
     "lastName",
     "age",
     "gender",
+    "photoUrl",
     "about",
     "skills",
-    "password",
+    // "password",
   ];
 
   //req.body is whagt we are entering from our side
