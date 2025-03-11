@@ -5,7 +5,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors")
 
 app.use(cors({
-  origin:"http://localhost:5173",//whitelisting this domain name
+  origin:"http://localhost:5173",//whitelisting this domain name to use this in frontend  while api calling
   credentials:true,
 }))
 app.use(express.json());

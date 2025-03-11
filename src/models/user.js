@@ -10,7 +10,8 @@ const userSchema=new mongoose.Schema({
         maxLength:50,
     },
     lastName:{
-        type:String
+        type:String,
+        
     },
     emailId:{
         type:String,
@@ -56,6 +57,7 @@ const userSchema=new mongoose.Schema({
     },
     photoUrl:{
         type:String,
+        default: "https://static.vecteezy.com/system/resources/thumbnails/045/711/185/small_2x/male-profile-picture-placeholder-for-social-media-forum-dating-site-chat-operator-design-social-profile-template-default-avatar-icon-flat-style-free-vector.jpg", // Default profile picture
         validate(value){
             if(!validator.isURL(value)){
                 throw new Error("Invalid photo URL" + value);
@@ -64,6 +66,7 @@ const userSchema=new mongoose.Schema({
     },
     about:{
         type:String,
+        default: "No bio available",
     },
     skills:{
         type:[String],
@@ -81,7 +84,7 @@ userSchema.methods.getJWT = async function (){
     const token =await jwt.sign({_id:user._id},"Prince@123",{expiresIn:"1D"});
     console.log(token)
     return token
-}
+} 
 
 //Same we will do for password ,********-> This is to compare/validate the password if user logs in.
 userSchema.methods.validatePassword = async function (passwordInputByUser){//this passwordInputByUser is comming from the argument in login in auth.js and it will get compared by the passwordHash which is present in our databse in salted/hashed fromat & dont interchange the order of this bcrypt.compare(passwordInputByUser, passwordHash)

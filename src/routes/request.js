@@ -26,8 +26,9 @@ requestRouter.post("/request/send/:status/:toUserId",userAuth,async (req,res)=>{
       }
 
       //to chek the req we are sending to is even present in our DB or not
+      let toUser;
       try {
-        const toUser = await User.findById(toUserId);
+         toUser = await User.findById(toUserId);
         if (!toUser) {
           return res.status(404).json({ message: "User not found!" });
         }
@@ -64,7 +65,7 @@ requestRouter.post("/request/send/:status/:toUserId",userAuth,async (req,res)=>{
         data,
       })
     }catch(err){
-      res.status(400).send("ERROR: " + err.message)
+      res.status(400).send("ERROR: " + err.message) 
     }
   })
 

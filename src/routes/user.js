@@ -4,7 +4,7 @@ const userRouter = express.Router();
 const ConnectionRequest = require("../models/connectionRequest")
 const User = require("../models/user")
 
-const USER_SAFE_DATA= "firstName lastName photoUrl age gender skills"
+const USER_SAFE_DATA= "firstName lastName photoUrl age gender skills about"
 
 //Get all the pending requests for the loggedIn user, for this first we need apply validation if the user is loggedIn or not
 userRouter.get("/user/requests/recevied",userAuth,async(req,res)=>{
@@ -14,6 +14,7 @@ userRouter.get("/user/requests/recevied",userAuth,async(req,res)=>{
         toUserId : loggedInUser._id,//if the corredct user is loggedIn or not
         status: "intrested", //to only see who are intrested in you otherwise it show all the data ex. rejected, ignored etc
       }).populate("fromUserId",["firstName","lastName","photoUrl"])//this data is coming from userCollection cuz link is created with "ref" in connectionRequest table
+      res.send(connectionRequest)
     }catch(err){
         res.status(400).send("ERROR: " + err.message )
     }
