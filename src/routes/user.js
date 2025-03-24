@@ -13,7 +13,7 @@ userRouter.get("/user/requests/recevied",userAuth,async(req,res)=>{
       const connectionRequest = await ConnectionRequest.find({
         toUserId : loggedInUser._id,//if the corredct user is loggedIn or not
         status: "intrested", //to only see who are intrested in you otherwise it show all the data ex. rejected, ignored etc
-      }).populate("fromUserId",["firstName","lastName","photoUrl"])//this data is coming from userCollection cuz link is created with "ref" in connectionRequest table
+      }).populate("fromUserId",USER_SAFE_DATA)//this data is coming from userCollection cuz link is created with "ref" in connectionRequest table
       res.send(connectionRequest)
     }catch(err){
         res.status(400).send("ERROR: " + err.message )

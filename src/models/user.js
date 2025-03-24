@@ -37,11 +37,11 @@ const userSchema=new mongoose.Schema({
     age:{
         type:Number,
         min:18,
-        required:true,
+        // required:true,
     },
     gender:{
         type:String,
-        required:true,
+        // required:true,
         //This is the ex of prebuild mongoose validation
         // enum:{
         //     values: ["male","female","others"],

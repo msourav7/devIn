@@ -21,8 +21,11 @@ requestRouter.post("/request/send/:status/:toUserId",userAuth,async (req,res)=>{
 
       //the stauts type should only be either ignored or intrestes but not accepted
       const allowedStatus = ["ignored","intrested"];
-      if(!allowedStatus){
-        return res.status(400).json({message: "Invalid status type: " + status});
+      // if(!allowedStatus){
+      //   return res.status(400).json({message: "Invalid status type: " + status});
+      // }
+      if (!allowedStatus.includes(status)) {
+        return res.status(400).json({ message: "Invalid status type: " + status });
       }
 
       //to chek the req we are sending to is even present in our DB or not

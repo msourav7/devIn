@@ -24,11 +24,16 @@ authRouter.post("/signup", async (req, res) => {
         lastName,
         emailId,
         password: passwordHash,
-        gender,
-        age
+        
+       
       });
-      await user.save();
-      res.send("User added successfully!");
+
+      const savedUser=await user.save();
+      const token=await savedUser.getJWT();//1st pt creating token
+        //Add the token to cookie and send the response back to the user
+        res.cookie("token",token); //2nd ptsetup the cookie
+
+      res.json({message:"User added successfully!",data:savedUser});
     } catch (err) {
       res.status(400).send("Error : " + err.message);
     }
@@ -51,11 +56,11 @@ authRouter.post("/login",async(req,res)=>{
         //Create the JWT Token
        
         // const token=await jwt.sign({firstName:user.firstName},"Prince@123");  getting this token validation from user model to clear the login api code  ,,  Creat a JWT Token required from user.js model 
-        const token=await user.getJWT();
+        const token=await user.getJWT();//1st pt creating token
   
         //Add the token to cookie and send the response back to the user
-        res.cookie("token",token);
-        res.send(user)
+        res.cookie("token",token); //2nd ptsetup the cookie
+        res.send(user)//3pt send the user back with the token inside the cookie
       }else{
         throw new Error("Password is not correct")
       }
