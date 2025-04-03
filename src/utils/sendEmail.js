@@ -50,4 +50,4 @@ const run = async (subject, body) => {
 };
 
 // snippet-end:[ses.JavaScript.email.sendEmailV3]
-module.exportsort = { run };
+module.exports = { run };
