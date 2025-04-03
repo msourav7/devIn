@@ -3,6 +3,7 @@ const app = express();
 const connectDB = require("./config/database");
 const cookieParser = require("cookie-parser");
 const cors = require("cors")
+require('dotenv').config()
 
 app.use(cors({
   origin:"http://localhost:5173",//whitelisting this domain name to use this in frontend  while api calling
@@ -25,7 +26,7 @@ app.use("/",userRouter);
 connectDB()
   .then(() => {
     console.log("Database connection established...");
-    app.listen(7777, () => {
+    app.listen(process.env.PORT, () => {
       console.log("server is running...");
     });
   })
