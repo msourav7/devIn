@@ -68,6 +68,10 @@ const userSchema=new mongoose.Schema({
         type:String,
         default: "No bio available",
     },
+    isPremium:{
+        type:Boolean,
+        default: true,
+    },
     skills:{
         type:[String],
     }
