@@ -66,8 +66,11 @@ requestRouter.post("/request/send/:status/:toUserId",userAuth,async (req,res)=>{
 
       const data = await connectionRequest.save();
 
-      const emailRes = await sendEmail.run("A new friend request from "+ req.user.firstName,
-        req.user.firstName + " is " + status + " in " + toUser.firstName);
+      // const emailRes = await sendEmail.run("A new friend request from "+ req.user.firstName,
+      //   req.user.firstName + " is " + status + " in " + toUser.firstName);
+      const emailRes = await sendEmail.run( toUser.emailId, // <- recipient
+        "A new friend request from " + req.user.firstName,
+        `${req.user.firstName} has marked you as "${status}". Login to respond.`);
       console.log(emailRes)
 
       res.json({

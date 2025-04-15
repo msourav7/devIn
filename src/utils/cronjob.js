@@ -33,8 +33,12 @@ cron.schedule("0 8 * * *", async () => {
     for (const email of listOfEmails) {
       try {
         const res = await sendEmail.run(
-          "New Friend Request pending for " + email,
-          "Please Log in and check for more..."
+          // "New Friend Request pending for " + email,
+          // "Please Log in and check for more..."
+
+          email, // <- this is the recipient email
+          "New Friend Request pending",
+          "Please log in and review your pending friend requests."
         );
         // console.log("Email sent:", res);
       } catch (err) {
