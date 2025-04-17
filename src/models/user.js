@@ -55,27 +55,27 @@ const userSchema=new mongoose.Schema({
             }
         },set: (value) => value.toLowerCase()
     },
-    // photoUrl:{
-    //     type:String,
-    //     default: "https://static.vecteezy.com/system/resources/thumbnails/045/711/185/small_2x/male-profile-picture-placeholder-for-social-media-forum-dating-site-chat-operator-design-social-profile-template-default-avatar-icon-flat-style-free-vector.jpg", // Default profile picture
-    //     validate(value){
-    //         if(!validator.isURL(value)){
-    //             throw new Error("Invalid photo URL" + value);
-    //         }
-    //     }
-    // },
-    photoUrl: {
-        type: String,
-        default: "https://static.vecteezy.com/system/resources/thumbnails/045/711/185/small_2x/male-profile-picture-placeholder-for-social-media-forum-dating-site-chat-operator-design-social-profile-template-default-avatar-icon-flat-style-free-vector.jpg",
-        validate(value) {
-          if (
-            !validator.isURL(value) ||
-            !/\.(jpeg|jpg)$/i.test(value) // <-- Check that URL ends with jpeg or jpg
-          ) {
-            throw new Error("Please enter a valid JPEG image URL");
-          }
-        },
-      },
+    photoUrl:{
+        type:String,
+        default: "https://static.vecteezy.com/system/resources/thumbnails/045/711/185/small_2x/male-profile-picture-placeholder-for-social-media-forum-dating-site-chat-operator-design-social-profile-template-default-avatar-icon-flat-style-free-vector.jpg", // Default profile picture
+        validate(value){
+            if(!validator.isURL(value)){
+                throw new Error("Please enter a valid JPEG image URL");
+            }
+        }
+    },
+    // photoUrl: {
+    //     type: String,
+    //     default: "https://static.vecteezy.com/system/resources/thumbnails/045/711/185/small_2x/male-profile-picture-placeholder-for-social-media-forum-dating-site-chat-operator-design-social-profile-template-default-avatar-icon-flat-style-free-vector.jpg",
+    //     validate(value) {
+    //       if (
+    //         !validator.isURL(value) ||
+    //         !/\.(jpeg|jpg)$/i.test(value) // <-- Check that URL ends with jpeg or jpg
+    //       ) {
+    //         throw new Error("Please enter a valid JPEG image URL");
+    //       }
+    //     },
+    //   },
     about:{
         type:String,
         default: "No bio available",
