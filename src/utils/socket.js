@@ -1,7 +1,7 @@
 const socket = require("socket.io");
 const crypto = require("crypto");
 const { Chat } = require("../models/chat");
-const ConnectionRequest = require("../models/connectionRequest");
+// const ConnectionRequest = require("../models/connectionRequest");
 
 const getSecretRoomId = (userID, targetUserId) => {
   return crypto
@@ -58,14 +58,21 @@ const initilizeSocket = (server) => {
           chat.messages.push({
             senderId: userID,
             text,
+            createdAt: new Date(),
           });
           //sending back all these data -{ firstName,lastName, text,senderId: userID, });
           await chat.save();
+
+          // Get the last inserted message[to get the timestamp of message also ]
+          const lastMessage = chat.messages[chat.messages.length - 1];
+
+        // Now, when your frontend receives messageReceived, it will have all these available.  
           io.to(roomId).emit("messageReceived", {
             firstName,
             lastName,
             text,
             senderId: userID,
+            createdAt: lastMessage.createdAt, 
           });
         } catch (err) {
           console.log(err);

@@ -5,8 +5,10 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors")
 const http = require("http")
 
+// it runs when your server starts:This line ensures that the cron job is scheduled when the server is booted up. just schedule background jobs. As long as they're imported before the server starts
 require('dotenv').config()
-require("./utils/cronjob")
+require("./utils/cronjob");
+require("./utils/cronChatDelete");
 
 app.use(cors({
   origin:"http://localhost:5173",//whitelisting this domain name to use this in frontend  while api calling
