@@ -34,14 +34,14 @@ const initilizeSocket = (server) => {
     // socket.emit("sendMessage", {           ))))))
     socket.on(
       "sendMessage",
-      async ({ firstName, lastName, userID, targetUserId, text }) => {
+      async ({ firstName, lastName, userID, targetUserId, text,photoUrl }) => {
 
  
         //save messages to the Database
         //finding the existing chat
         try {
           const roomId = getSecretRoomId(userID, targetUserId);
-          console.log(firstName + " " + text);
+          console.log(firstName + " " + text + " "+photoUrl);
 
           let chat = await Chat.findOne({
             participants: { $all: [userID, targetUserId] },
@@ -59,6 +59,7 @@ const initilizeSocket = (server) => {
             senderId: userID,
             text,
             createdAt: new Date(),
+            photoUrl,
           });
           //sending back all these data -{ firstName,lastName, text,senderId: userID, });
           await chat.save();
@@ -73,6 +74,7 @@ const initilizeSocket = (server) => {
             text,
             senderId: userID,
             createdAt: lastMessage.createdAt, 
+            photoUrl,
           });
         } catch (err) {
           console.log(err);
